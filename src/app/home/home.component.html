@@ -1,3 +1,12 @@
-<p>
-  home works!
-</p>
+<div class="row">
+<div class="col" *ngFor="let g of homeGems" >
+    <app-gem [gem]= "g" [gemCart]="homeCart"></app-gem>
+    </div>
+<!--    <div class="col">
+    <app-gem [gem]= "homeGems[1]"></app-gem>
+    </div>
+    
+    <div class="col">
+    <app-gem [gem]= "homeGems[2]"></app-gem>
+    </div>-->
+</div>
