@@ -1,7 +1,10 @@
 <h6>Reviews</h6>
 <div *ngFor="let review of reviewsGem.reviews">
     <div class="row">
-        <div class="col-10">
+        <div class="col-2">
+	<img class="img-fluid" src="https://2.gravatar.com/avatar/blank" />
+</div>
+        <div class="col-8">
             <blockquote class="blockquote">
                 <p class="mb-0">{{review.body}}</p>
                 <footer class="blockquote-footer"><cite>{{review.author}}</cite></footer>
@@ -14,7 +17,10 @@
 </div>
 
 <div class="row">
-    <div class="col-10">
+    <div class="col-2">
+	<img class="img-fluid" src="{{avatarService.generate(newReview.author)}}" />
+</div>
+    <div class="col-8">
             <blockquote class="blockquote">
                 <p class="mb-0">{{newReview.body}}</p>
                 <footer class="blockquote-footer"><cite>{{newReview.author}}</cite></footer>
@@ -24,13 +30,32 @@
             <h1>{{newReview.rating}}</h1> 
     </div>
 </div>
-<form (ngSubmit)="submitClicked()">
+<form (ngSubmit)="submitClicked(reviewForm);"  #reviewForm="ngForm">
+    
+    <div class="alert alert-danger" *ngIf="reviewForm.touched && reviewForm.invalid">
+	Fix yer dang review!
+	<ul>
+		<li *ngIf="email.errors && email.errors.required">
+			Email is required.
+		</li>
+        <li *ngIf="review.errors && review.errors.required">
+			Review is required.
+		</li>
+    </ul>
+</div>
+    
     <div class="form-group">
         <label for="email">Email</label>
-        <input class="form-control" type="email" placeholder="Enter your email" name="email" [(ngModel)]="newReview.author" /> </div>
+        <input class="form-control" type="email" placeholder="Enter your email" name="email" [(ngModel)]="newReview.author" required #email= "ngModel" [class.is-invalid]="email.invalid  && email.touched" [class.is-valid]="email.valid  && email.touched" /> 
+        
+    <div class="invalid-feedback">Email is required</div>
+        <div class="valid-feedback">Email is nice</div>
+       
+    </div>
     <div class="form-group">
         <label for="body">Review</label>
-        <textarea class="form-control" placeholder="Enter your review" name="body" [(ngModel)]="newReview.body"></textarea>
+        <textarea class="form-control" placeholder="Enter your review" name="body" [(ngModel)]="newReview.body" #review="ngModel" [class.is-invalid]="review.invalid && review.touched" required></textarea>
+        <div class="invalid-feedback" > Review is required</div>
     </div>
     <div class="form-group">
         <label for="rating">Rating</label>
@@ -42,5 +67,5 @@
             <option value="5">5</option>
         </select>
     </div>
-    <input type="submit" class="btn btn-default" value="Submit Review" />
+    <input type="submit" class="btn btn-default" [disabled]= "reviewForm.invalid" value="Submit Review" />
 </form>

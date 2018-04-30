@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { CartItemModel} from '../cart-item-model';
 
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {GemModel} from '../gem-model';
 import {CartModel} from '../cart-model';
+import { CartService} from '../cart.service';
 
 @Component({
   selector: 'app-home',
@@ -10,49 +14,19 @@ import {CartModel} from '../cart-model';
 })
 export class HomeComponent implements OnInit {
     
-    @Input()
+   
     homeCart: CartModel;
     
-    homeGems: GemModel = [{
-        id: '1',
-        name: 'Dodecahedron',
-        price: 7.25,
-        description: 'Some gems have hidden qualities beyond their lustre, beyond their shine.... Dodecahedron is one of those gems',
-        fullImagePath: './assets/gem-01.gif',
-        inventory: 10,
-        colors: ['green', 'blue'],
-        reviews: [
-            {
-                id: 1,
-                rating: 5,
-                author: 'amwombeki@gmail.com',
-                body: 'Great product!',
-                createdate: '4/25/2018'
-            }
-        ]
-    },{
-        id: '2',
-        name: 'Pentagon',
-        price: 5.95,
-        description: 'Some gems have hidden qualities beyond their lustre, beyond their shine.... Dodecahedron is one of those gems',
-        fullImagePath: './assets/gem-02.gif',
-        inventory: 0,
-        colors: ['red', 'purple']
-    },
-                          {
-        id: '3',
-        name: 'Hexagon',
-        price: 9.95,
-        description: 'Some gems have hidden qualities beyond their lustre, beyond their shine.... Dodecahedron is one of those gems',
-        fullImagePath: './assets/gem-03.gif',
-        inventory: 6,
-        colors: ['yellow','bown']
-    }
-                         ];
+    homeGems: GemModel
 
-  constructor() { }
+  constructor( private httpClient: HttpClient, private cartService: CartService ) {
+  }
 
   ngOnInit() {
+      this.homeCart = this.cartService.cart;
+      //console.log(JSON.stringify(this.homeGems));
+      this.httpClient.get('/assets/gems.json').subscribe((data: GemModel) => { this.homeGems = data;});
+      
   }
 
 }

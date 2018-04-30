@@ -1,6 +1,6 @@
 import {ReviewModel} from './review-model';
 export class GemModel {
-id: string;
+id: number;
 name: string;
 price: number;
 description: string;

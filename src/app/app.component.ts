@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import {CartModel} from './cart-model';
-import {CartItemModel} from './cart-item-model';
+
 
 @Component({
   selector: 'app-root',
@@ -12,9 +11,5 @@ export class AppComponent {
   year = (new Date().getFullYear());
   author = 'Amon Mwombeki';
     
-    appCart: CartModel = {
-        totalprice: 0,
-        totalquantity: 0,
-        items: []
-    };
+   
 }
