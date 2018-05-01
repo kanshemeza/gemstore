@@ -17,15 +17,20 @@ export class HomeComponent implements OnInit {
    
     homeCart: CartModel;
     
-    homeGems: GemModel
+    homeGems: GemModel[]
 
   constructor( private httpClient: HttpClient, private cartService: CartService ) {
   }
 
   ngOnInit() {
       this.homeCart = this.cartService.cart;
-      //console.log(JSON.stringify(this.homeGems));
-      this.httpClient.get('/assets/gems.json').subscribe((data: GemModel) => { this.homeGems = data;});
+      
+     /* console.log(JSON.stringify(this.homeGems));
+      this.httpClient.get('/assets/gems.json').subscribe((data: GemModel) => { this.homeGems = data;});*/
+      
+      this.httpClient.get('http://localhost:57726/api/values').subscribe((data: GemModel[]) => {
+          this.homeGems = data;
+      });
       
   }
 

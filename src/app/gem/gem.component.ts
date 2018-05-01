@@ -4,6 +4,7 @@ import {GemModel} from '../gem-model';
 
 import {CartModel} from '../cart-model';
 import {CartItemModel} from '../cart-item-model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-gem',
@@ -18,13 +19,18 @@ title: string = 'Gem Component';
     @Input()
     gemCart: CartModel;
 
-  constructor() { }
+  constructor(private httpClient:HttpClient) { }
 
   ngOnInit() {
   }
     addToCart(){
         
         this.gem.inventory = this.gem.inventory - 1;
+        
+        let targetUrl = "http://localhost:57726/api/values/" + this.gem.id;
+        
+        
+        this.httpClient.put(targetUrl, this.gem).subscribe((result) => {console.log("put finished")});
         
         this.gemCart.totalquantity = this.gemCart.totalquantity + 1;
         
